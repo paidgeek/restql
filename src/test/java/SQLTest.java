@@ -1,25 +1,18 @@
-import com.moybl.restql.Lexer;
-import com.moybl.restql.Parser;
-import com.moybl.restql.RestQLLexer;
-import com.moybl.restql.RestQLParser;
+import com.moybl.restql.*;
 import com.moybl.restql.ast.AstNode;
 import com.moybl.restql.generators.SQLGenerator;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.io.InputStream;
+
 public class SQLTest {
 
 	@Test
 	public void simpleQuery() {
-		Lexer lexer = new RestQLLexer(LexerTest.class.getResourceAsStream("test2.txt"));
-		Parser parser = new RestQLParser();
+		InputStream is = LexerTest.class.getResourceAsStream("test2.txt");
 
-		AstNode result = parser.parse(lexer);
-
-		SQLGenerator sqlGenerator = new SQLGenerator();
-		result.accept(sqlGenerator);
-
-		Assert.assertEquals("((`age`>18) AND ((`name` LIKE '%a%') OR (`created_at`>'2006-05-00')))", sqlGenerator.getResult());
+		Assert.assertEquals("((`x`>18) AND ((`name` LIKE '%a%') OR (`date`>'2006-05-00')))", RestQL.parseToSQL(is));
 	}
 
 }
