@@ -1,0 +1,23 @@
+package com.moybl.restql;
+
+public enum Token {
+
+	EOF,
+	IDENTIFIER,
+	AND,
+	OR,
+	OPEN_PARENTHESIS,
+	CLOSE_PARENTHESIS,
+	INTEGER,
+	DECIMAL,
+	STRING,
+	EQUAL,
+	NOT_EQUAL,
+	NOT,
+	LESS,
+	GREATER,
+	LESS_OR_EQUAL,
+	GREATER_OR_EQUAL,
+	LIKE
+
+}
