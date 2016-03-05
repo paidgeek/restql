@@ -1,9 +1,7 @@
 package com.moybl.restql;
 
-import java.io.BufferedInputStream;
-import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
+import java.io.*;
+import java.util.*;
 
 public class RestQLLexer implements Lexer {
 
@@ -36,7 +34,7 @@ public class RestQLLexer implements Lexer {
 
 			while ((ch = stream.read()) != -1) {
 				if (Character.isDigit(ch)) {
-					StringBuffer sb = new StringBuffer();
+					StringBuilder sb = new StringBuilder();
 
 					do {
 						sb.append((char) ch);
@@ -50,7 +48,7 @@ public class RestQLLexer implements Lexer {
 
 					break;
 				} else if (Character.isLetter(ch) || ch == '_') {
-					StringBuffer sb = new StringBuffer();
+					StringBuilder sb = new StringBuilder();
 
 					do {
 						sb.append((char) ch);
@@ -64,7 +62,7 @@ public class RestQLLexer implements Lexer {
 
 					break;
 				} else if (ch == '\'') {
-					StringBuffer sb = new StringBuffer();
+					StringBuilder sb = new StringBuilder();
 					sb.append((char) ch);
 
 					do {
@@ -83,7 +81,7 @@ public class RestQLLexer implements Lexer {
 								break;
 							}
 						} else if (ch == -1) {
-							throw new RestQLException("string literal is not properly closed by a apostrophe");
+							Report.error(Report.STRING_LITERAL_NOT_CLOSED);
 						}
 					} while (true);
 
@@ -104,7 +102,7 @@ public class RestQLLexer implements Lexer {
 					}
 
 					if (!PUNCTUATORS.containsKey(lexeme)) {
-						throw new RestQLException("illegal character");
+						Report.errorf(Report.ILLEGAL_CHARACTER, lexeme);
 					}
 
 					symbol = new Symbol(PUNCTUATORS.get(lexeme), lexeme);
@@ -112,8 +110,8 @@ public class RestQLLexer implements Lexer {
 					break;
 				}
 			}
-		} catch (Exception e) {
-			throw new RestQLException(e.getMessage());
+		} catch (IOException e) {
+			Report.error();
 		}
 
 		if (symbol == null) {

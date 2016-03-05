@@ -1,6 +1,6 @@
 package com.moybl.restql.ast;
 
-import com.moybl.restql.Token;
+import com.moybl.restql.*;
 
 public class UnaryOperation extends AstNode {
 

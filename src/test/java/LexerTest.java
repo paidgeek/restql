@@ -1,9 +1,5 @@
-import com.moybl.restql.Lexer;
-import com.moybl.restql.RestQLLexer;
-import com.moybl.restql.Symbol;
-import com.moybl.restql.Token;
-import org.junit.Assert;
-import org.junit.Test;
+import com.moybl.restql.*;
+import org.junit.*;
 
 public class LexerTest {
 

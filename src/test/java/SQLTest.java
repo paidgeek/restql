@@ -1,10 +1,7 @@
 import com.moybl.restql.*;
-import com.moybl.restql.ast.AstNode;
-import com.moybl.restql.generators.SQLGenerator;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.*;
 
-import java.io.InputStream;
+import java.io.*;
 
 public class SQLTest {
 

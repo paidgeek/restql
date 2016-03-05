@@ -1,9 +1,8 @@
 package com.moybl.restql;
 
-import com.moybl.restql.generators.SQLGenerator;
+import com.moybl.restql.generators.*;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
+import java.io.*;
 
 public class RestQL {
 

@@ -1,9 +1,6 @@
-import com.moybl.restql.Lexer;
-import com.moybl.restql.Parser;
-import com.moybl.restql.RestQLLexer;
-import com.moybl.restql.RestQLParser;
-import com.moybl.restql.ast.AstNode;
-import org.junit.Test;
+import com.moybl.restql.*;
+import com.moybl.restql.ast.*;
+import org.junit.*;
 
 public class ParserTest {
 

@@ -1,9 +1,6 @@
 package com.moybl.restql;
 
-import com.moybl.restql.ast.AstNode;
-import com.moybl.restql.ast.BinaryOperation;
-import com.moybl.restql.ast.Identifier;
-import com.moybl.restql.ast.Literal;
+import com.moybl.restql.ast.*;
 
 public class RestQLParser implements Parser {
 
@@ -87,7 +84,9 @@ public class RestQLParser implements Parser {
 			return new Literal(current.getLexeme(), Literal.Type.STRING);
 		}
 
-		throw new RestQLException("internal error");
+		Report.error();
+
+		return null;
 	}
 
 	private Token peek() {
@@ -95,16 +94,12 @@ public class RestQLParser implements Parser {
 	}
 
 	private boolean match(Token token) {
-		if (next.getToken() == token) {
-			return true;
-		}
-
-		return false;
+		return next.getToken() == token;
 	}
 
 	private boolean match(Token... tokens) {
-		for (int i = 0; i < tokens.length; i++) {
-			if (next.getToken() == tokens[i]) {
+		for (Token token : tokens) {
+			if (next.getToken() == token) {
 				return true;
 			}
 		}
@@ -117,7 +112,7 @@ public class RestQLParser implements Parser {
 			current = next;
 			next = lexer.next();
 		} else {
-			throw new RestQLException(String.format("expected %s, got %s", token, next.getToken()));
+			Report.errorf(Report.UNEXPECTED_TOKEN, token, next.getToken());
 		}
 	}
 
@@ -133,8 +128,8 @@ public class RestQLParser implements Parser {
 	}
 
 	private boolean accept(Token... tokens) {
-		for (int i = 0; i < tokens.length; i++) {
-			if (accept(tokens[i])) {
+		for (Token token : tokens) {
+			if (accept(token)) {
 				return true;
 			}
 		}

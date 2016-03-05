@@ -1,6 +1,6 @@
 package com.moybl.restql;
 
-import com.moybl.restql.ast.AstNode;
+import com.moybl.restql.ast.*;
 
 public interface Parser {
 

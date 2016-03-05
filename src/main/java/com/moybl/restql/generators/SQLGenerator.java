@@ -2,8 +2,6 @@ package com.moybl.restql.generators;
 
 import com.moybl.restql.ast.*;
 
-import static com.moybl.restql.Token.AND;
-
 public class SQLGenerator implements Visitor {
 
 	private StringBuilder query;
