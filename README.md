@@ -4,14 +4,14 @@
 ## Syntax grammar
 
 ```js
-query:
+element:
 	empty
-	or query
-	
+	or element
+
 or:
 	and
 	and . or
-	
+
 and:
 	equality
 	equality , and
@@ -23,7 +23,7 @@ equality:
 relation:
 	primary
 	relation relationOperator primary
-	
+
 primary:
 	( element )
 	identifier
@@ -34,7 +34,7 @@ equalityOperator:
 	:
 	!:
 	~
-	
+
 relationOperator:
 	<
 	>
