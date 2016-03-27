@@ -11,7 +11,7 @@ public class RestQLParser implements Parser {
 	private Symbol current;
 	private Symbol next;
 
-	public AstNode parse(Lexer lexer) {
+	public Query parse(Lexer lexer) {
 		this.lexer = lexer;
 		next = lexer.next();
 
