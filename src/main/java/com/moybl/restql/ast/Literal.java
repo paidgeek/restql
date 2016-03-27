@@ -29,7 +29,7 @@ public class Literal extends AstNode {
 	}
 
 	public enum Type {
-		INTEGER, DECIMAL, STRING
+		NUMBER, STRING
 	}
 
 }

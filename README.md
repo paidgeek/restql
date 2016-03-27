@@ -4,40 +4,54 @@
 ## Syntax grammar
 
 ```js
-element:
-	empty
-	or element
+<assignments>:
+    <empty>
+    <member> = <elements>
+    <member> = <elements> & <assignments>
 
-or:
-	and
-	and . or
+<elements>:
+    <or>
+    <or> , <elements>
 
-and:
-	equality
-	equality , and
+<or>:
+    <and>
+    <and> or <or>
 
-equality:
-	relation
-	relation equalityOperator equality
+<and>:
+    <equality>
+    <equality> and <and>
 
-relation:
-	primary
-	relation relationOperator primary
+<equality>:
+    <relation>
+    <relation> <equalityOperator> <equality>
 
-primary:
-	( element )
-	identifier
-	number
-	string
+<relation>:
+    <member>
+    <relation> <relationOperator> <member>
 
-equalityOperator:
-	:
-	!:
-	~
+<member>:
+    <primary>
+    <primary> . <member>
+    <primary> ( <arguments> )
 
-relationOperator:
-	<
-	>
-	<:
-	:>
+<arguments>:
+    <empty>
+    <primary>
+    <primary> , <arguments>
+
+<primary>:
+    ( <elements> )
+    <identifier>
+    <number>
+    <string>
+
+<equalityOperator>:
+    :
+    !:
+
+<relationOperator>:
+    <
+    >
+    <:
+    :>
 ```

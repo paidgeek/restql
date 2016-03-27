@@ -1,15 +1,17 @@
 package com.moybl.restql;
 
 public enum Token {
-
 	EOF,
 	IDENTIFIER,
+	AMPERSAND,
+	COMMA,
+	DOT,
+	ASSIGNMENT,
 	AND,
 	OR,
 	OPEN_PARENTHESIS,
 	CLOSE_PARENTHESIS,
-	INTEGER,
-	DECIMAL,
+	NUMBER,
 	STRING,
 	EQUAL,
 	NOT_EQUAL,
@@ -17,7 +19,5 @@ public enum Token {
 	LESS,
 	GREATER,
 	LESS_OR_EQUAL,
-	GREATER_OR_EQUAL,
-	LIKE
-
+	GREATER_OR_EQUAL
 }

@@ -13,11 +13,12 @@ public class RestQLLexer implements Lexer {
 		put(">", Token.GREATER);
 		put("<:", Token.LESS_OR_EQUAL);
 		put(">:", Token.GREATER_OR_EQUAL);
-		put(".", Token.OR);
-		put(",", Token.AND);
-		put("~", Token.LIKE);
 		put("(", Token.OPEN_PARENTHESIS);
 		put(")", Token.CLOSE_PARENTHESIS);
+		put("=", Token.ASSIGNMENT);
+		put("&", Token.AMPERSAND);
+		put(",", Token.COMMA);
+		put(".", Token.DOT);
 	}};
 
 	private BufferedInputStream stream;
@@ -44,7 +45,7 @@ public class RestQLLexer implements Lexer {
 
 					stream.reset();
 
-					symbol = new Symbol(Token.INTEGER, sb.toString());
+					symbol = new Symbol(Token.NUMBER, sb.toString());
 
 					break;
 				} else if (Character.isLetter(ch) || ch == '_') {

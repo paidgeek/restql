@@ -1,5 +1,6 @@
 import com.moybl.restql.*;
 import com.moybl.restql.ast.*;
+
 import org.junit.*;
 
 public class ParserTest {

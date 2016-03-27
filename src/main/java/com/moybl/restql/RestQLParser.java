@@ -2,6 +2,9 @@ package com.moybl.restql;
 
 import com.moybl.restql.ast.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class RestQLParser implements Parser {
 
 	private Lexer lexer;
@@ -12,7 +15,35 @@ public class RestQLParser implements Parser {
 		this.lexer = lexer;
 		next = lexer.next();
 
-		return parseElement();
+		return new Query(parseAssignments());
+	}
+
+	private List<Assignment> parseAssignments() {
+		List<Assignment> assignments = new ArrayList<Assignment>();
+
+		AstNode member = parseMember();
+		check(Token.ASSIGNMENT);
+		List<AstNode> elements = parseElements();
+
+		assignments.add(new Assignment(member, elements));
+
+		while (accept(Token.AMPERSAND)) {
+			assignments.addAll(parseAssignments());
+		}
+
+		return assignments;
+	}
+
+	private List<AstNode> parseElements() {
+		List<AstNode> elements = new ArrayList<AstNode>();
+
+		elements.add(parseOr());
+
+		while (accept(Token.COMMA)) {
+			elements.addAll(parseElements());
+		}
+
+		return elements;
 	}
 
 	private AstNode parseElement() {
@@ -20,64 +51,74 @@ public class RestQLParser implements Parser {
 	}
 
 	private AstNode parseOr() {
-		AstNode child = parseAnd();
+		AstNode and = parseAnd();
 
 		if (accept(Token.OR)) {
-			return new BinaryOperation(Token.OR, child, parseOr());
+			return new BinaryOperation(Token.OR, and, parseOr());
 		}
 
-		return child;
+		return and;
 	}
 
 	private AstNode parseAnd() {
-		AstNode child = parseEquality();
+		AstNode equality = parseEquality();
 
 		if (accept(Token.AND)) {
-			return new BinaryOperation(Token.AND, child, parseAnd());
+			return new BinaryOperation(Token.AND, equality, parseAnd());
 		}
 
-		return child;
+		return equality;
 	}
 
 	private AstNode parseEquality() {
-		AstNode child = parseRelation();
+		AstNode relation = parseRelation();
 
-		if (accept(Token.EQUAL, Token.NOT_EQUAL, Token.LIKE)) {
-			return new BinaryOperation(current.getToken(), child, parseEquality());
+		if (accept(Token.EQUAL, Token.NOT_EQUAL)) {
+			return new BinaryOperation(current.getToken(), relation, parseEquality());
 		}
 
-		return child;
+		return relation;
 	}
 
 	private AstNode parseRelation() {
-		AstNode child = parsePrimary();
+		AstNode member = parseMember();
 
 		if (accept(Token.LESS, Token.LESS_OR_EQUAL, Token.GREATER, Token.GREATER_OR_EQUAL)) {
-			return new BinaryOperation(current.getToken(), child, parseRelation());
+			return new BinaryOperation(current.getToken(), member, parseRelation());
 		}
 
-		return child;
+		return member;
+	}
+
+	private AstNode parseMember() {
+		AstNode primary = parsePrimary();
+
+		if (accept(Token.OPEN_PARENTHESIS)) {
+			Call call = new Call(primary, parseArguments());
+			check(Token.CLOSE_PARENTHESIS);
+
+			return call;
+		} else if (accept(Token.DOT)) {
+			return new Member(primary, parseMember());
+		}
+
+		return primary;
 	}
 
 	private AstNode parsePrimary() {
 		if (accept(Token.OPEN_PARENTHESIS)) {
-			AstNode child = parseElement();
-
+			AstNode element = parseElement();
 			check(Token.CLOSE_PARENTHESIS);
 
-			return child;
+			return element;
 		}
 
-		if (accept(Token.IDENTIFIER)) {
-			return new Identifier(current.getLexeme());
+		if (match(Token.IDENTIFIER)) {
+			return parseIdentifier();
 		}
 
-		if (accept(Token.INTEGER)) {
-			return new Literal(current.getLexeme(), Literal.Type.INTEGER);
-		}
-
-		if (accept(Token.DECIMAL)) {
-			return new Literal(current.getLexeme(), Literal.Type.DECIMAL);
+		if (accept(Token.NUMBER)) {
+			return new Literal(current.getLexeme(), Literal.Type.NUMBER);
 		}
 
 		if (accept(Token.STRING)) {
@@ -89,12 +130,28 @@ public class RestQLParser implements Parser {
 		return null;
 	}
 
-	private Token peek() {
-		return next.getToken();
+	private Identifier parseIdentifier() {
+		check(Token.IDENTIFIER);
+
+		return new Identifier(current.getLexeme());
 	}
 
-	private boolean match(Token token) {
-		return next.getToken() == token;
+	private List<AstNode> parseArguments() {
+		List<AstNode> arguments = new ArrayList<AstNode>();
+
+		if (peek() != Token.CLOSE_PARENTHESIS) {
+			arguments.add(parsePrimary());
+
+			while (accept(Token.COMMA)) {
+				arguments.addAll(parseArguments());
+			}
+		}
+
+		return arguments;
+	}
+
+	private Token peek() {
+		return next.getToken();
 	}
 
 	private boolean match(Token... tokens) {
@@ -116,20 +173,12 @@ public class RestQLParser implements Parser {
 		}
 	}
 
-	private boolean accept(Token token) {
-		if (match(token)) {
-			current = next;
-			next = lexer.next();
-
-			return true;
-		}
-
-		return false;
-	}
-
 	private boolean accept(Token... tokens) {
 		for (Token token : tokens) {
-			if (accept(token)) {
+			if (match(token)) {
+				current = next;
+				next = lexer.next();
+
 				return true;
 			}
 		}
