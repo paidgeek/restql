@@ -12,7 +12,7 @@ public class LexerTest {
 
 	@Test
 	public void parseQuery() {
-		Lexer lexer = new RestQLLexer(new ByteArrayInputStream("a.x=42&y=1,2,3&z=val!:'hi'".getBytes()));
+		Lexer lexer = new RestQLLexer(new ByteArrayInputStream("a.x=42&y=1,2,3&z=val!:'hi'and or".getBytes()));
 
 		Symbol[] symbols = new Symbol[]{
 				new Symbol(Token.IDENTIFIER, "a"),
@@ -34,6 +34,8 @@ public class LexerTest {
 				new Symbol(Token.IDENTIFIER, "val"),
 				new Symbol(Token.NOT_EQUAL, "!:"),
 				new Symbol(Token.STRING, "'hi'"),
+				new Symbol(Token.AND, "and"),
+				new Symbol(Token.OR, "or")
 		};
 
 		for (int i = 0; i < symbols.length; i++) {

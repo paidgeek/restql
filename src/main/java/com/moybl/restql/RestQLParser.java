@@ -44,6 +44,8 @@ public class RestQLParser implements Parser {
 		if (accept(Token.COMMA)) {
 			List<AstNode> elements = new ArrayList<AstNode>();
 
+			elements.add(or);
+
 			do {
 				elements.add(parseOr());
 			} while (accept(Token.COMMA));

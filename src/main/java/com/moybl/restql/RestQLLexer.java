@@ -59,7 +59,15 @@ public class RestQLLexer implements Lexer {
 
 					stream.reset();
 
-					symbol = new Symbol(Token.IDENTIFIER, sb.toString());
+					String lexeme = sb.toString();
+
+					if (lexeme.equals("and")) {
+						symbol = new Symbol(Token.AND, lexeme);
+					} else if (lexeme.equals("or")) {
+						symbol = new Symbol(Token.OR, lexeme);
+					} else {
+						symbol = new Symbol(Token.IDENTIFIER, lexeme);
+					}
 
 					break;
 				} else if (ch == '\'') {

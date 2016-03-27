@@ -25,7 +25,7 @@ public class Literal extends AstNode {
 
 	@Override
 	public String toString() {
-		return String.format("Literal(%s)", value);
+		return String.format("Literal(%s, %s)", type, value);
 	}
 
 	public enum Type {

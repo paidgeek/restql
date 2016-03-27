@@ -1,6 +1,37 @@
 # RestQL
 [![Build Status](https://travis-ci.org/paidgeek/restql.svg?branch=master)](https://travis-ci.org/paidgeek/restql)
 
+## Usage
+```java
+AstNode result = RestQL.parse("print('hello, world')&life=42&nope=1!:2");
+result.accept(new CustomVisitor());
+```
+
+Result AST:
+```js
+Query
+    Call
+        Identifier('print')
+        Literal(STRING, 'hello, world')
+    Assignment
+        Identifier('life')
+        Literal(NUMBER, 42)
+    Assignment
+        Identifier('nope')
+        Binary(NOT_EQUAL)
+            Literal(NUMBER, 1)
+            Literal(NUMBER, 2)
+```
+Use custom visitor, which implements [Visitor](https://github.com/paidgeek/restql/blob/master/src/main/java/com/moybl/restql/ast/Visitor.java) interface, to traverse an AST. For example, a visitor can be used to generate a SQL statement.
+
+## Example queries
+```js
+user.name:'bob%' and user.age >: 18
+```
+```js
+a = sum(1, 2, 3) & b = avg(a, 2)
+```
+
 ## Syntax grammar
 
 ```js
