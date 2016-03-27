@@ -2,11 +2,11 @@ package com.moybl.restql.ast;
 
 import java.util.List;
 
-public class Query extends AstNode {
+public class Sequence extends AstNode {
 
 	private List<AstNode> elements;
 
-	public Query(List<AstNode> elements) {
+	public Sequence(List<AstNode> elements) {
 		this.elements = elements;
 	}
 
@@ -16,10 +16,9 @@ public class Query extends AstNode {
 
 	@Override
 	public String toString() {
-		return "Query";
+		return "Sequence";
 	}
 
-	@Override
 	public void accept(Visitor visitor) {
 		visitor.visit(this);
 	}

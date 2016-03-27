@@ -1,13 +1,11 @@
 package com.moybl.restql.ast;
 
-import java.util.List;
-
 public class Call extends AstNode {
 
 	private AstNode target;
-	private List<AstNode> arguments;
+	private AstNode arguments;
 
-	public Call(AstNode target, List<AstNode> arguments) {
+	public Call(AstNode target, AstNode arguments) {
 		this.target = target;
 		this.arguments = arguments;
 	}
@@ -21,7 +19,7 @@ public class Call extends AstNode {
 		return target;
 	}
 
-	public List<AstNode> getArguments() {
+	public AstNode getArguments() {
 		return arguments;
 	}
 

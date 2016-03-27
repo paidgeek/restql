@@ -7,10 +7,7 @@ public class ParserTest {
 
 	@Test
 	public void test() {
-		Lexer lexer = new RestQLLexer(LexerTest.class.getResourceAsStream("test1.txt"));
-		Parser parser = new RestQLParser();
-
-		AstNode result = parser.parse(lexer);
+		AstNode result = RestQL.parse("a.x=b.f(42,'hi')&42&'hello, world'");
 
 		result.accept(new DumpVisitor());
 	}

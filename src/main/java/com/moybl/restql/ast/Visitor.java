@@ -18,4 +18,6 @@ public interface Visitor {
 
 	void visit(Member acceptor);
 
+	void visit(Sequence sequence);
+
 }

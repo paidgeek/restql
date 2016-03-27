@@ -1,23 +1,21 @@
 package com.moybl.restql.ast;
 
-import java.util.List;
-
 public class Assignment extends AstNode {
 
-	private AstNode target;
-	private List<AstNode> elements;
+	private AstNode destination;
+	private AstNode source;
 
-	public Assignment(AstNode target, List<AstNode> elements) {
-		this.target = target;
-		this.elements = elements;
+	public Assignment(AstNode destination, AstNode source) {
+		this.destination = destination;
+		this.source = source;
 	}
 
-	public AstNode getTarget() {
-		return target;
+	public AstNode getDestination() {
+		return destination;
 	}
 
-	public List<AstNode> getElements() {
-		return elements;
+	public AstNode getSource() {
+		return source;
 	}
 
 	public void accept(Visitor visitor) {

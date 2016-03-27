@@ -4,14 +4,18 @@
 ## Syntax grammar
 
 ```js
-<assignments>:
+<query>:
     <empty>
-    <member> = <elements>
-    <member> = <elements> & <assignments>
+    <assignment>
+    <assignment> & <query>
 
-<elements>:
+<assignment>:
     <or>
-    <or> , <elements>
+    <or> = <sequence>
+
+<sequence>:
+    <or>
+    <or> , <sequence>
 
 <or>:
     <and>
@@ -32,15 +36,10 @@
 <member>:
     <primary>
     <primary> . <member>
-    <primary> ( <arguments> )
-
-<arguments>:
-    <empty>
-    <primary>
-    <primary> , <arguments>
+    <primary> ( <sequence> )
 
 <primary>:
-    ( <elements> )
+    ( <sequence> )
     <identifier>
     <number>
     <string>

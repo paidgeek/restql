@@ -9,8 +9,8 @@ public class DumpVisitor implements Visitor {
 		print(query);
 
 		ident++;
-		for (Assignment a : query.getAssignments()) {
-			a.accept(this);
+		for (AstNode element : query.getElements()) {
+			element.accept(this);
 		}
 		ident--;
 	}
@@ -19,12 +19,10 @@ public class DumpVisitor implements Visitor {
 		print(assignment);
 
 		ident++;
-		assignment.getTarget()
+		assignment.getDestination()
 					 .accept(this);
-
-		for (AstNode element : assignment.getElements()) {
-			element.accept(this);
-		}
+		assignment.getSource()
+					 .accept(this);
 		ident--;
 	}
 
@@ -60,9 +58,8 @@ public class DumpVisitor implements Visitor {
 		acceptor.getTarget()
 				  .accept(this);
 
-		for (AstNode arg : acceptor.getArguments()) {
-			arg.accept(this);
-		}
+		acceptor.getArguments()
+				  .accept(this);
 
 		ident--;
 	}
@@ -74,6 +71,16 @@ public class DumpVisitor implements Visitor {
 				  .accept(this);
 		acceptor.getExpression()
 				  .accept(this);
+		ident--;
+	}
+
+	public void visit(Sequence sequence) {
+		print(sequence);
+
+		ident++;
+		for (AstNode element : sequence.getElements()) {
+			element.accept(this);
+		}
 		ident--;
 	}
 

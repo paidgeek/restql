@@ -15,39 +15,43 @@ public class RestQLParser implements Parser {
 		this.lexer = lexer;
 		next = lexer.next();
 
-		return new Query(parseAssignments());
-	}
-
-	private List<Assignment> parseAssignments() {
-		List<Assignment> assignments = new ArrayList<Assignment>();
-
-		AstNode member = parseMember();
-		check(Token.ASSIGNMENT);
-		List<AstNode> elements = parseElements();
-
-		assignments.add(new Assignment(member, elements));
-
-		while (accept(Token.AMPERSAND)) {
-			assignments.addAll(parseAssignments());
-		}
-
-		return assignments;
-	}
-
-	private List<AstNode> parseElements() {
 		List<AstNode> elements = new ArrayList<AstNode>();
 
-		elements.add(parseOr());
-
-		while (accept(Token.COMMA)) {
-			elements.addAll(parseElements());
+		if (peek() == Token.EOF) {
+			return new Query(elements);
 		}
 
-		return elements;
+		do {
+			elements.add(parseAssignment());
+		} while (accept(Token.AMPERSAND) && peek() != Token.EOF);
+
+		return new Query(elements);
 	}
 
-	private AstNode parseElement() {
-		return parseOr();
+	private AstNode parseAssignment() {
+		AstNode or = parseOr();
+
+		if (accept(Token.ASSIGNMENT)) {
+			return new Assignment(or, parseSequence());
+		}
+
+		return or;
+	}
+
+	private AstNode parseSequence() {
+		AstNode or = parseOr();
+
+		if (accept(Token.COMMA)) {
+			List<AstNode> elements = new ArrayList<AstNode>();
+
+			do {
+				elements.add(parseOr());
+			} while (accept(Token.COMMA));
+
+			return new Sequence(elements);
+		}
+
+		return or;
 	}
 
 	private AstNode parseOr() {
@@ -94,7 +98,7 @@ public class RestQLParser implements Parser {
 		AstNode primary = parsePrimary();
 
 		if (accept(Token.OPEN_PARENTHESIS)) {
-			Call call = new Call(primary, parseArguments());
+			Call call = new Call(primary, parseSequence());
 			check(Token.CLOSE_PARENTHESIS);
 
 			return call;
@@ -107,10 +111,10 @@ public class RestQLParser implements Parser {
 
 	private AstNode parsePrimary() {
 		if (accept(Token.OPEN_PARENTHESIS)) {
-			AstNode element = parseElement();
+			AstNode sequence = parseSequence();
 			check(Token.CLOSE_PARENTHESIS);
 
-			return element;
+			return sequence;
 		}
 
 		if (match(Token.IDENTIFIER)) {
@@ -134,20 +138,6 @@ public class RestQLParser implements Parser {
 		check(Token.IDENTIFIER);
 
 		return new Identifier(current.getLexeme());
-	}
-
-	private List<AstNode> parseArguments() {
-		List<AstNode> arguments = new ArrayList<AstNode>();
-
-		if (peek() != Token.CLOSE_PARENTHESIS) {
-			arguments.add(parsePrimary());
-
-			while (accept(Token.COMMA)) {
-				arguments.addAll(parseArguments());
-			}
-		}
-
-		return arguments;
 	}
 
 	private Token peek() {
