@@ -31,16 +31,20 @@ public class RestQLBuilder {
 	}
 
 	public Literal literal(Object value) {
-		Literal.Type type;
+		Token type;
 
 		if (value instanceof Integer || value instanceof Float || value instanceof Double) {
-			type = Literal.Type.NUMBER;
+			type = Token.NUMBER;
 		} else {
-			type = Literal.Type.STRING;
+			type = Token.STRING;
 			value = value.toString();
 		}
 
 		return new Literal(value, type);
+	}
+
+	public Member member(AstNode target, AstNode expression) {
+		return new Member(target, expression);
 	}
 
 	public Identifier identifier(String name) {

@@ -124,11 +124,11 @@ public class RestQLParser implements Parser {
 		}
 
 		if (accept(Token.NUMBER)) {
-			return new Literal(current.getLexeme(), Literal.Type.NUMBER);
+			return new Literal(current.getLexeme(), Token.NUMBER);
 		}
 
 		if (accept(Token.STRING)) {
-			return new Literal(current.getLexeme(), Literal.Type.STRING);
+			return new Literal(current.getLexeme(), Token.STRING);
 		}
 
 		Report.error();

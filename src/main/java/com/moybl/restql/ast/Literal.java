@@ -1,11 +1,13 @@
 package com.moybl.restql.ast;
 
+import com.moybl.restql.Token;
+
 public class Literal extends AstNode {
 
 	private Object value;
-	private Type type;
+	private Token type;
 
-	public Literal(Object value, Type type) {
+	public Literal(Object value, Token type) {
 		this.value = value;
 		this.type = type;
 	}
@@ -19,17 +21,13 @@ public class Literal extends AstNode {
 		return value;
 	}
 
-	public Type getType() {
+	public Token getType() {
 		return type;
 	}
 
 	@Override
 	public String toString() {
 		return String.format("Literal(%s, %s)", type, value);
-	}
-
-	public enum Type {
-		NUMBER, STRING
 	}
 
 }
