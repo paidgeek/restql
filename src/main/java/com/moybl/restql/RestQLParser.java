@@ -29,13 +29,13 @@ public class RestQLParser implements Parser {
 	}
 
 	private AstNode parseAssignment() {
-		AstNode or = parseOr();
+		AstNode sequence = parseSequence();
 
 		if (accept(Token.ASSIGNMENT)) {
-			return new Assignment(or, parseSequence());
+			return new Assignment(sequence, parseSequence());
 		}
 
-		return or;
+		return sequence;
 	}
 
 	private AstNode parseSequence() {
