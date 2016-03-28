@@ -4,6 +4,7 @@ import com.moybl.restql.Token;
 import com.moybl.restql.ast.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class RestQLBuilder {
@@ -28,6 +29,14 @@ public class RestQLBuilder {
 
 	public BinaryOperation binaryOperation(AstNode left, Token operator, AstNode right) {
 		return new BinaryOperation(operator, left, right);
+	}
+
+	public UnaryOperation unaryOperation(Token operator, AstNode child) {
+		return new UnaryOperation(operator, child);
+	}
+
+	public Sequence sequence(AstNode... elements) {
+		return new Sequence(Arrays.asList(elements));
 	}
 
 	public Literal literal(Object value) {

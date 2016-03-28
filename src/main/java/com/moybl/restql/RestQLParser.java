@@ -87,13 +87,23 @@ public class RestQLParser implements Parser {
 	}
 
 	private AstNode parseRelation() {
-		AstNode member = parseMember();
+		AstNode unary = parseUnary();
 
 		if (accept(Token.LESS, Token.LESS_OR_EQUAL, Token.GREATER, Token.GREATER_OR_EQUAL)) {
-			return new BinaryOperation(current.getToken(), member, parseRelation());
+			return new BinaryOperation(current.getToken(), unary, parseRelation());
 		}
 
-		return member;
+		return unary;
+	}
+
+	private AstNode parseUnary() {
+		if (accept(Token.NOT)) {
+			AstNode member = parseMember();
+
+			return new UnaryOperation(Token.NOT, member);
+		}
+
+		return parseMember();
 	}
 
 	private AstNode parseMember() {

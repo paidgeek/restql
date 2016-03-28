@@ -61,8 +61,12 @@ a = sum(1, 2, 3) & b = avg(a, 2)
     <relation> <equalityOperator> <equality>
 
 <relation>:
+    <unary>
+    <unary> <relationOperator> <relation>
+
+<unary>:
     <member>
-    <relation> <relationOperator> <member>
+    ! <member>
 
 <member>:
     <primary>

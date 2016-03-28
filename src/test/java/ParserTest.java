@@ -7,7 +7,7 @@ public class ParserTest {
 
 	@Test
 	public void test() {
-		AstNode result = RestQL.parse("print('hi')&life=42&x=1!:2");
+		AstNode result = RestQL.parse("print('hi')&life=!42&x=1!:2");
 
 		result.accept(new DumpVisitor());
 	}
