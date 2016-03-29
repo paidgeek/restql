@@ -56,6 +56,26 @@ public class Literal extends AstNode implements Comparable<Literal> {
 		return 0;
 	}
 
+	@Override
+	public int hashCode() {
+		return value.hashCode();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) {
+			return false;
+		}
+
+		if (obj == this) {
+			return true;
+		}
+
+		Literal other = (Literal) obj;
+
+		return value.equals(other.value);
+	}
+
 	public static Literal trueLiteral() {
 		return new Literal(1.0, Token.NUMBER);
 	}

@@ -14,12 +14,12 @@ public class Engine implements Visitor {
 		variables = new HashMap<String, Literal>();
 	}
 
-	public void setVariable(String name, Object value) {
-		if (value instanceof String) {
-			variables.put(name, new Literal(value, Token.STRING));
-		} else {
-			variables.put(name, new Literal(value, Token.NUMBER));
-		}
+	public void setVariable(String name, double value) {
+		variables.put(name, new Literal(value, Token.NUMBER));
+	}
+
+	public void setVariable(String name, String value) {
+		variables.put(name, new Literal(value, Token.STRING));
 	}
 
 	public Literal getVariable(String name) {
