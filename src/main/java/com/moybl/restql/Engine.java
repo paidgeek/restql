@@ -31,6 +31,13 @@ public class Engine implements Visitor {
 				.accept(this);
 	}
 
+	public Literal evaluate(String source) {
+		RestQL.parse(source)
+				.accept(this);
+
+		return (Literal) result;
+	}
+
 	public void visit(Query acceptor) {
 		for (AstNode element : acceptor.getElements()) {
 			element.accept(this);

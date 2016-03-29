@@ -38,6 +38,7 @@ public class EngineTest {
 
 		assertEquals(1.0, e.getVariable("c")
 								 .numberValue());
+		System.out.println(e.getVariable("b").numberValue());
 	}
 
 	@Test
@@ -46,6 +47,12 @@ public class EngineTest {
 
 		assertEquals(42.0, e.getVariable("p.c")
 								  .numberValue());
+	}
+
+	@Test
+	public void evaluate() {
+		assertEquals(1.0, e.evaluate("3 >: 3")
+								 .numberValue());
 	}
 
 }
