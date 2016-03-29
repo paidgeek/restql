@@ -54,7 +54,10 @@ public class EngineTest {
 								 .numberValue());
 
 		e.setVariable("x", 200);
-		assertEquals(1.0, e.evaluate("x:200").numberValue());
+		assertEquals(1.0, e.evaluate("x:200")
+								 .numberValue());
+		assertEquals(0.0, e.evaluate("x:500")
+								 .numberValue());
 	}
 
 }

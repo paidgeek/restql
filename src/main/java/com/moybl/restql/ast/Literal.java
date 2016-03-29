@@ -46,11 +46,9 @@ public class Literal extends AstNode implements Comparable<Literal> {
 
 		switch (type) {
 			case NUMBER:
-				((Double) value).compareTo((Double) o.value);
-				break;
+				return ((Double) value).compareTo((Double) o.value);
 			case STRING:
-				((String) value).compareTo((String) o.value);
-				break;
+				return ((String) value).compareTo((String) o.value);
 		}
 
 		return 0;
