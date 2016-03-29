@@ -40,4 +40,12 @@ public class EngineTest {
 								 .numberValue());
 	}
 
+	@Test
+	public void members() {
+		e.execute("p.c = 42");
+
+		assertEquals(42.0, e.getVariable("p.c")
+								  .numberValue());
+	}
+
 }

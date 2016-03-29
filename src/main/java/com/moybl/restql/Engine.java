@@ -146,6 +146,14 @@ public class Engine implements Visitor {
 	}
 
 	public void visit(Member acceptor) {
+		acceptor.getTarget()
+				  .accept(this);
+		Identifier t = (Identifier) result;
+		acceptor.getExpression()
+				  .accept(this);
+		Identifier e = (Identifier) result;
+
+		result = new Identifier(t.getName() + "." + e.getName());
 	}
 
 	public void visit(Sequence sequence) {
