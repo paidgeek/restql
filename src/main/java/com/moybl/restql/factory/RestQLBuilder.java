@@ -21,8 +21,8 @@ public class RestQLBuilder {
 		return this;
 	}
 
-	public RestQLBuilder call(AstNode target, AstNode arguments) {
-		elements.add(new Call(target, arguments));
+	public RestQLBuilder call(AstNode target, AstNode... arguments) {
+		elements.add(new Call(target, new Sequence(Arrays.asList(arguments))));
 
 		return this;
 	}

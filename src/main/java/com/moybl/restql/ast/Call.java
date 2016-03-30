@@ -3,9 +3,9 @@ package com.moybl.restql.ast;
 public class Call extends AstNode {
 
 	private AstNode target;
-	private AstNode arguments;
+	private Sequence arguments;
 
-	public Call(AstNode target, AstNode arguments) {
+	public Call(AstNode target, Sequence arguments) {
 		this.target = target;
 		this.arguments = arguments;
 	}
