@@ -19,7 +19,7 @@ public class Call extends AstNode {
 		return target;
 	}
 
-	public AstNode getArguments() {
+	public Sequence getArguments() {
 		return arguments;
 	}
 
