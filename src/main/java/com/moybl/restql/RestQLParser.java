@@ -29,31 +29,23 @@ public class RestQLParser implements Parser {
 	}
 
 	private AstNode parseAssignment() {
-		AstNode sequence = parseSequence();
-
-		if (accept(Token.ASSIGNMENT)) {
-			return new Assignment(sequence, parseSequence());
-		}
-
-		return sequence;
-	}
-
-	private AstNode parseSequence() {
 		AstNode or = parseOr();
 
-		if (accept(Token.COMMA)) {
-			List<AstNode> elements = new ArrayList<AstNode>();
-
-			elements.add(or);
-
-			do {
-				elements.add(parseOr());
-			} while (accept(Token.COMMA));
-
-			return new Sequence(elements);
+		if (accept(Token.ASSIGNMENT)) {
+			return new Assignment(or, parseSequence());
 		}
 
 		return or;
+	}
+
+	private AstNode parseSequence() {
+		List<AstNode> elements = new ArrayList<AstNode>();
+
+		do {
+			elements.add(parseOr());
+		} while (accept(Token.COMMA));
+
+		return new Sequence(elements);
 	}
 
 	private AstNode parseOr() {
@@ -143,9 +135,7 @@ public class RestQLParser implements Parser {
 																		  .length() - 1), Token.STRING);
 		}
 
-		Report.error();
-
-		return null;
+		throw new RestQLException();
 	}
 
 	private Identifier parseIdentifier() {
@@ -173,7 +163,7 @@ public class RestQLParser implements Parser {
 			current = next;
 			next = lexer.next();
 		} else {
-			Report.errorf(Report.UNEXPECTED_TOKEN, token, next.getToken());
+			throw new RestQLException(RestQLException.UNEXPECTED_TOKEN, token, next.getToken());
 		}
 	}
 

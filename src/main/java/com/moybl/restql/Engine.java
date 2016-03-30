@@ -164,6 +164,9 @@ public class Engine implements Visitor {
 	}
 
 	public void visit(Sequence sequence) {
+		for (AstNode e : sequence.getElements()) {
+			e.accept(this);
+		}
 	}
 
 }

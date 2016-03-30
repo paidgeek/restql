@@ -90,7 +90,7 @@ public class RestQLLexer implements Lexer {
 								break;
 							}
 						} else if (ch == -1) {
-							Report.error(Report.STRING_LITERAL_NOT_CLOSED);
+							throw new RestQLException(RestQLException.STRING_LITERAL_NOT_CLOSED);
 						}
 					} while (true);
 
@@ -111,7 +111,7 @@ public class RestQLLexer implements Lexer {
 					}
 
 					if (!PUNCTUATORS.containsKey(lexeme)) {
-						Report.errorf(Report.ILLEGAL_CHARACTER, lexeme);
+						throw new RestQLException(RestQLException.ILLEGAL_CHARACTER, lexeme);
 					}
 
 					symbol = new Symbol(PUNCTUATORS.get(lexeme), lexeme);
@@ -120,7 +120,7 @@ public class RestQLLexer implements Lexer {
 				}
 			}
 		} catch (IOException e) {
-			Report.error();
+			throw new RestQLException();
 		}
 
 		if (symbol == null) {

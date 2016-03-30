@@ -1,3 +1,5 @@
+package com.moybl.restql;
+
 import com.moybl.restql.ast.Visitor;
 import com.moybl.restql.ast.*;
 
@@ -87,7 +89,7 @@ public class DumpVisitor implements Visitor {
 	private void print(Object obj) {
 		String message = obj.toString();
 
-		for (int i = 0; i < ident * 4; i++) {
+		for (int i = 0; i < ident * 2; i++) {
 			message = " " + message;
 		}
 

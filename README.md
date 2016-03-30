@@ -6,23 +6,30 @@
 ### Parsing
 ```java
 AstNode result = RestQL.parse("print('hello, world')&life=42&nope=1!:2");
-result.accept(new CustomVisitor());
+result.accept(new DumpVisitor());
 ```
 
 Result AST:
 ```js
 Query
+  Sequence
     Call
-        Identifier('print')
-        Literal(STRING, 'hello, world')
-    Assignment
-        Identifier('life')
-        Literal(NUMBER, 42)
-    Assignment
-        Identifier('nope')
-        Binary(NOT_EQUAL)
-            Literal(NUMBER, 1)
-            Literal(NUMBER, 2)
+      Identifier('print')
+      Sequence
+        Literal(STRING, hello, world)
+  Assignment
+    Sequence
+      Identifier('life')
+    Sequence
+      Literal(NUMBER, 42.0)
+  Assignment
+    Sequence
+      Identifier('nope')
+    Sequence
+      Binary(NOT_EQUAL)
+        Literal(NUMBER, 1.0)
+        Literal(NUMBER, 2.0)
+
 ```
 Use custom visitor, which implements [Visitor](https://github.com/paidgeek/restql/blob/master/src/main/java/com/moybl/restql/ast/Visitor.java) interface, to traverse an AST. For example, a visitor can be used to generate a SQL statement.
 
