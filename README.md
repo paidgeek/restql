@@ -62,8 +62,8 @@ a = sum(1, 2, 3) & b = avg(a, 2)
     <assignment> & <query>
 
 <assignment>:
-    <or>
-    <or> = <sequence>
+    <sequence>
+    <sequence> = <sequence>
 
 <sequence>:
     <or>

@@ -1,19 +1,22 @@
 import com.moybl.restql.RestQL;
+import com.moybl.restql.ast.Query;
 import com.moybl.restql.generators.SQLGenerator;
 
 import org.junit.Test;
 
 import static junit.framework.TestCase.assertEquals;
 
-public class SQLGeneratorTest {
+public class GeneratorsTest {
 
 	@Test
 	public void simpleSelect() {
-		SQLGenerator sqlGenerator = new SQLGenerator();
-		RestQL.parse("select(name, email) & from(user) & where(user.age >: 18)")
-				.accept(sqlGenerator);
+		SQLGenerator sql = new SQLGenerator();
 
-		assertEquals("SELECT name, email FROM user WHERE (user.age >= 18)", sqlGenerator.getResult());
+		Query query = RestQL.parse("select(name, email) & from(user) & where(user.age >: 18)");
+
+		query.accept(sql);
+
+		assertEquals("SELECT name, email FROM user WHERE (user.age >= 18)", sql.getResult());
 	}
 
 	@Test

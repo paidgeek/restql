@@ -12,4 +12,11 @@ public class ParserTest {
 		result.accept(new DumpVisitor());
 	}
 
+	@Test
+	public void sequence() {
+		AstNode result = RestQL.parse("user_name,password,salt");
+
+		result.accept(new DumpVisitor());
+	}
+
 }
