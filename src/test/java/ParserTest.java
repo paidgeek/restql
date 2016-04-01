@@ -19,4 +19,11 @@ public class ParserTest {
 		result.accept(new DumpVisitor());
 	}
 
+	@Test
+	public void emptyArguments() {
+		AstNode result = RestQL.parse("f()");
+
+		result.accept(new DumpVisitor());
+	}
+
 }

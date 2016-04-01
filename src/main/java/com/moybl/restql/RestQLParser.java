@@ -102,7 +102,7 @@ public class RestQLParser implements Parser {
 		AstNode primary = parsePrimary();
 
 		if (accept(Token.OPEN_PARENTHESIS)) {
-			Call call = new Call(primary, (Sequence) parseSequence());
+			Call call = new Call(primary, (Sequence) parseArguments());
 			check(Token.CLOSE_PARENTHESIS);
 
 			return call;
@@ -111,6 +111,14 @@ public class RestQLParser implements Parser {
 		}
 
 		return primary;
+	}
+
+	private AstNode parseArguments() {
+		if (match(Token.CLOSE_PARENTHESIS)) {
+			return new Sequence(new ArrayList<AstNode>());
+		}
+
+		return parseSequence();
 	}
 
 	private AstNode parsePrimary() {
