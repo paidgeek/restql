@@ -23,7 +23,9 @@ public class RestQLParser implements Parser {
 
 		do {
 			elements.add(parseAssignment());
-		} while (accept(Token.AMPERSAND) && peek() != Token.EOF);
+		} while (accept(Token.AMPERSAND));
+
+		check(Token.EOF);
 
 		return new Query(elements);
 	}
@@ -171,7 +173,7 @@ public class RestQLParser implements Parser {
 			current = next;
 			next = lexer.next();
 		} else {
-			throw new RestQLException(RestQLException.UNEXPECTED_TOKEN, token, next.getToken());
+			throw new RestQLException(RestQLException.UNEXPECTED_TOKEN, token, next.getLexeme());
 		}
 	}
 

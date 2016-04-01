@@ -1,4 +1,7 @@
+import com.moybl.restql.DumpVisitor;
+import com.moybl.restql.RestQL;
 import com.moybl.restql.Token;
+import com.moybl.restql.ast.AstNode;
 import com.moybl.restql.factory.RestQLBuilder;
 import com.moybl.restql.factory.SourceFactory;
 
@@ -16,6 +19,13 @@ public class BuilderTest {
 																							 .assignment(b.identifier("life"), b.literal(42))
 																							 .assignment(b.identifier("x"), b.binaryOperation(b.literal(1), Token.NOT_EQUAL, b.literal(2)))
 																							 .build()));
+	}
+
+	@Test
+	public void test() {
+		AstNode result = RestQL.parse("x : 1 and y : 1 and z : 3");
+
+		result.accept(new DumpVisitor());
 	}
 
 }
