@@ -93,9 +93,10 @@ a = sum(1, 2, 3) & b = avg(a, 2)
     <primary>
     <primary> . <member>
     <primary> ( <arguments> )
+    <primary> ( <arguments> ) . <member>
 
 <arguments>:
-    empty
+    <empty>
     <sequence>
 
 <primary>:

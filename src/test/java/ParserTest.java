@@ -26,4 +26,11 @@ public class ParserTest {
 		result.accept(new DumpVisitor());
 	}
 
+	@Test
+	public void chainedCalls() {
+		AstNode result = RestQL.parse("f(1).g(2).h(3)");
+
+		result.accept(new DumpVisitor());
+	}
+
 }

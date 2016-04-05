@@ -107,6 +107,10 @@ public class RestQLParser implements Parser {
 			Call call = new Call(primary, (Sequence) parseArguments());
 			check(Token.CLOSE_PARENTHESIS);
 
+			if (accept(Token.DOT)) {
+				return new Member(call, parseMember());
+			}
+
 			return call;
 		} else if (accept(Token.DOT)) {
 			return new Member(primary, parseMember());
